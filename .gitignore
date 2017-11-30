@@ -1,4 +1,4 @@
 template
 build
 secrets.yml
-
+*.pyc

@@ -1,13 +1,23 @@
-import tweepy
 import os
-import requests
 import json
+from validate import *
+import hmac
+import requests
+import tweepy
 
 def handle(st):
     req = json.loads(st)
 
     event_type = os.getenv("Http_X_Patreon_Event")
+    sender_digest = os.getenv("Http_X_Patreon_Signature")
+
+    key = os.getenv("webhook_secret")
+
     print("Event: " + event_type)
+
+    if validate_hmac(sender_digest, key, st) == False:
+        print("Bad HMAC from sender, could not verify")
+        return
 
     if event_type == "pledges:create":
         cents = req["data"]["attributes"]["amount_cents"]
