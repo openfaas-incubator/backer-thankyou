@@ -5,7 +5,7 @@ functions:
   patreon-responder:
     lang: python
     handler: ./patreon-responder
-    image: alexellis2/patreon-responder:0.2
+    image: alexellis2/patreon-responder:0.3
 
     environment:
       write_debug: true

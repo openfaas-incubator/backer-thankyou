@@ -19,7 +19,32 @@ def handle(st):
         print("Bad HMAC from sender, could not verify")
         return
 
-    if event_type == "pledges:create":
+    if event_type == "pledges:delete":
+        patron_link = req["data"]["relationships"]["patron"]["links"]["related"]
+        r = requests.get(patron_link)
+
+        if r.status_code == 200:
+            patron = r.json()
+            twitter = patron["data"]["attributes"]["twitter"]
+            tagged = ""
+            if twitter != None and len(twitter) > 0:
+                tagged = " @" + twitter
+            tweet = "We are sorry to see that " + patron["data"]["attributes"]["full_name"] + tagged + " removed their pledge for @OpenFaaS. Thank you for your support to date."
+
+            print(tweet)
+
+            auth = tweepy.OAuthHandler(os.environ["consumer_key"], os.environ["consumer_secret"])
+            auth.set_access_token(os.environ["access_token"], os.environ["access_token_secret"])
+
+            api = tweepy.API(auth)
+
+            try:
+                print("Sending: " + tweet)
+
+                api.update_status(tweet)
+            except e:
+                print(e)
+    elif event_type == "pledges:create":
         cents = req["data"]["attributes"]["amount_cents"]
 
         patron_link = req["data"]["relationships"]["patron"]["links"]["related"]
