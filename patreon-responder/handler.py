@@ -29,7 +29,7 @@ def handle(st):
             tagged = ""
             if twitter != None and len(twitter) > 0:
                 tagged = " @" + twitter
-            tweet = "We are sorry to see that " + patron["data"]["attributes"]["full_name"] + tagged + " removed their pledge for @OpenFaaS. Thank you for your support to date."
+            tweet = "We are sorry to see that " + patron["data"]["attributes"]["full_name"] + tagged + " removed their pledge for @OpenFaaS. Thank you for your support to date. https://www.patreon.com/alexellis"
 
             print(tweet)
 
