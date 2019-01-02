@@ -20,30 +20,33 @@ def handle(st):
         return
 
     if event_type == "pledges:delete":
-        patron_link = req["data"]["relationships"]["patron"]["links"]["related"]
-        r = requests.get(patron_link)
+        display = os.getenv("display_removed", "0")
 
-        if r.status_code == 200:
-            patron = r.json()
-            twitter = patron["data"]["attributes"]["twitter"]
-            tagged = ""
-            if twitter != None and len(twitter) > 0:
-                tagged = " @" + twitter
-            tweet = "We are sorry to see that " + patron["data"]["attributes"]["full_name"] + tagged + " removed their pledge for @OpenFaaS. Thank you for your support to date. https://www.patreon.com/alexellis"
+        if display == "1":
+            patron_link = req["data"]["relationships"]["patron"]["links"]["related"]
+            r = requests.get(patron_link)
 
-            print(tweet)
+            if r.status_code == 200:
+                patron = r.json()
+                twitter = patron["data"]["attributes"]["twitter"]
+                tagged = ""
+                if twitter != None and len(twitter) > 0:
+                    tagged = " @" + twitter
+                tweet = "We want to thank " + patron["data"]["attributes"]["full_name"] + tagged + " for their pledges and support for @OpenFaaS. https://www.patreon.com/alexellis"
 
-            auth = tweepy.OAuthHandler(os.environ["consumer_key"], os.environ["consumer_secret"])
-            auth.set_access_token(os.environ["access_token"], os.environ["access_token_secret"])
+                print(tweet)
 
-            api = tweepy.API(auth)
+                auth = tweepy.OAuthHandler(os.environ["consumer_key"], os.environ["consumer_secret"])
+                auth.set_access_token(os.environ["access_token"], os.environ["access_token_secret"])
 
-            try:
-                print("Sending: " + tweet)
+                api = tweepy.API(auth)
 
-                api.update_status(tweet)
-            except e:
-                print(e)
+                try:
+                    print("Sending: " + tweet)
+
+                    api.update_status(tweet)
+                except e:
+                    print(e)
     elif event_type == "pledges:create":
         cents = req["data"]["attributes"]["amount_cents"]
 
