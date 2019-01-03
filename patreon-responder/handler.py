@@ -1,17 +1,17 @@
-import os
+from os import getenv
 import json
 from validate import *
-import hmac
+from config import get_config
 import requests
 import tweepy
 
 def handle(st):
     req = json.loads(st)
 
-    event_type = os.getenv("Http_X_Patreon_Event")
-    sender_digest = os.getenv("Http_X_Patreon_Signature")
+    event_type = getenv("Http_X_Patreon_Event")
+    sender_digest = getenv("Http_X_Patreon_Signature")
 
-    key = os.getenv("webhook_secret")
+    key = get_config("webhook_secret")
 
     print("Event: " + event_type)
 
@@ -20,7 +20,7 @@ def handle(st):
         return
 
     if event_type == "pledges:delete":
-        display = os.getenv("display_removed", "0")
+        display = get_config("display_removed", "0")
 
         if display == "1":
             patron_link = req["data"]["relationships"]["patron"]["links"]["related"]
@@ -36,8 +36,8 @@ def handle(st):
 
                 print(tweet)
 
-                auth = tweepy.OAuthHandler(os.environ["consumer_key"], os.environ["consumer_secret"])
-                auth.set_access_token(os.environ["access_token"], os.environ["access_token_secret"])
+                auth = tweepy.OAuthHandler(get_config("consumer_key"), get_config("consumer_secret"))
+                auth.set_access_token(get_config("access_token"), get_config("access_token_secret"))
 
                 api = tweepy.API(auth)
 
@@ -64,8 +64,8 @@ def handle(st):
 
             print(tweet)
 
-            auth = tweepy.OAuthHandler(os.environ["consumer_key"], os.environ["consumer_secret"])
-            auth.set_access_token(os.environ["access_token"], os.environ["access_token_secret"])
+            auth = tweepy.OAuthHandler(get_config("consumer_key"), get_config("consumer_secret"))
+            auth.set_access_token(get_config("access_token"), get_config("access_token_secret"))
 
             api = tweepy.API(auth)
 
