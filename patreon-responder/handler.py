@@ -60,7 +60,7 @@ def handle(st):
             tagged = ""
             if twitter != None and len(twitter) > 0:
                 tagged = " @" + twitter
-            tweet = patron["data"]["attributes"]["full_name"] + tagged + " just pledged " + "{0:.2f}".format(float(cents/100)) + " dollar(s) to @OpenFaaS. Thank you from #TeamServerless!"
+            tweet = patron["data"]["attributes"]["full_name"] + tagged + " just pledged " + "{0:.2f}".format(float(cents/100)) + " dollar(s) to @OpenFaaS. Thank you from #TeamServerless! https://www.patreon.com/alexellis"
 
             print(tweet)
 
