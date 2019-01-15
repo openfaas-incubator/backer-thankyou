@@ -10,7 +10,7 @@ functions:
     environment:
       write_debug: true
       read_debug: true
-      display_removed: true
+      display_removed: false
     environment_file:
 #      - secrets.example.yml
       - secrets.yml
