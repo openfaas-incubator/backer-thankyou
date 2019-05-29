@@ -79,7 +79,7 @@ def handle(body):
 
 def get_secret(key):
     val = ""
-    open("/var/openfaas/secrets/"+key) as f:
+    with open("/var/openfaas/secrets/"+key) as f:
         val = f.read()
         f.close()
 
