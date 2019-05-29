@@ -37,8 +37,8 @@ def handle(body):
 
                 print(tweet)
 
-                auth = tweepy.OAuthHandler(get_secret("consumer-key"), get_secret("consumer-secret")
-                auth.set_access_token(get_secret("access-token"), get_secret("access-token-secret")
+                auth = tweepy.OAuthHandler(get_secret("consumer-key"), get_secret("consumer-secret"))
+                auth.set_access_token(get_secret("access-token"), get_secret("access-token-secret"))
 
                 api = tweepy.API(auth)
 
@@ -65,8 +65,8 @@ def handle(body):
 
             print(tweet)
 
-            auth = tweepy.OAuthHandler(get_secret("consumer-key"), get_secret("consumer-secret")
-            auth.set_access_token(get_secret("access-token"), get_secret("access-token-secret")
+            auth = tweepy.OAuthHandler(get_secret("consumer-key"), get_secret("consumer-secret"))
+            auth.set_access_token(get_secret("access-token"), get_secret("access-token-secret"))
 
             api = tweepy.API(auth)
 
