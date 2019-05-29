@@ -13,3 +13,6 @@ functions:
       display_removed: false
     secrets:
       - backer-thankyou-secrets
+    labels:
+      com.openfaas.scale.zero: false
+
