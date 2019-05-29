@@ -21,9 +21,9 @@ You can deploy this code to any OpenFaaS cluster.
 
 #### Step 1 - prepare the repo / integrations
 
-* Fork the repo
-* Setup a Twitter app to enable tweeting
-* Setup a webhook on Patreon and save the webhook secret
+* Fork the repo into your own account. Your username will be the `USERNAME` variable we use later
+* Setup a Twitter app to enable tweeting from the function. Save the access / consumer keys and secrets.
+* Setup a webhook on Patreon to the URL where your function will run. Save the webhook and note down the secret
 
 ### Step 2 - Seal new secrets
 
@@ -31,6 +31,7 @@ You can deploy this code to any OpenFaaS cluster.
 # USERNAME corresponds to your username on OpenFaaS Cloud
 export USERNAME="openfaas"
 
+# You get this after adding your Patreon webhook
 export PATREON_WEBHOOK_SECRET=""
 
 export CONSUMER_KEY=""
