@@ -5,17 +5,18 @@ import hmac
 import requests
 import tweepy
 
-def handle(st):
-    req = json.loads(st)
+def handle(body):
+
+    req = json.loads(body)
 
     event_type = os.getenv("Http_X_Patreon_Event")
     sender_digest = os.getenv("Http_X_Patreon_Signature")
 
-    key = os.getenv("webhook_secret")
+    key = get_secret("patreon-webhook-secret")
 
     print("Event: " + event_type)
 
-    if validate_hmac(sender_digest, key, st) == False:
+    if validate_hmac(sender_digest, key, body) == False:
         print("Bad HMAC from sender, could not verify")
         return
 
@@ -36,8 +37,8 @@ def handle(st):
 
                 print(tweet)
 
-                auth = tweepy.OAuthHandler(os.environ["consumer_key"], os.environ["consumer_secret"])
-                auth.set_access_token(os.environ["access_token"], os.environ["access_token_secret"])
+                auth = tweepy.OAuthHandler(get_secret("consumer-key"), get_secret("consumer-secret")
+                auth.set_access_token(get_secret("access-token"), get_secret("access-token-secret")
 
                 api = tweepy.API(auth)
 
@@ -64,8 +65,8 @@ def handle(st):
 
             print(tweet)
 
-            auth = tweepy.OAuthHandler(os.environ["consumer_key"], os.environ["consumer_secret"])
-            auth.set_access_token(os.environ["access_token"], os.environ["access_token_secret"])
+            auth = tweepy.OAuthHandler(get_secret("consumer-key"), get_secret("consumer-secret")
+            auth.set_access_token(get_secret("access-token"), get_secret("access-token-secret")
 
             api = tweepy.API(auth)
 
@@ -75,3 +76,12 @@ def handle(st):
                 api.update_status(tweet)
             except e:
                 print(e)
+
+def get_secret(key):
+    val = ""
+    open("/var/openfaas/secrets/"+key) as f:
+        val = f.read()
+        f.close()
+
+    return val
+

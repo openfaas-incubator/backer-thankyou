@@ -19,12 +19,41 @@ You can deploy this code to any OpenFaaS cluster.
 
 ### Steps
 
-* Clone the repo
-* `cp secrets.example.yml secrets.yml`
+#### Step 1 - prepare the repo / integrations
+
+* Fork the repo
 * Setup a Twitter app to enable tweeting
-* Setup a webhook on Patreon
-* Edit `secrets.yml`
-* Run `faas-cli deploy`
+* Setup a webhook on Patreon and save the webhook secret
+
+### Step 2 - Seal new secrets
+
+```sh
+# USERNAME corresponds to your username on OpenFaaS Cloud
+export USERNAME="openfaas"
+
+export PATREON_WEBHOOK_SECRET=""
+
+export CONSUMER_KEY=""
+export CONSUMER_SECRET=""
+
+export ACCESS_TOKEN=""
+export ACCESS_TOKEN_SECRET=""
+
+faas-cli cloud seal --name "$USERNAME"-backer-thankyou-secrets \
+    --literal patreon-webhook-secret="${PATREON_WEBHOOK_SECRET}" \
+    --literal consumer-key="${CONSUMER_KEY}" \
+    --literal consumer-secret="${CONSUMER_SECRET}" \
+    --literal access-token="${ACCESS_TOKEN}" \
+    --literal access-token-secret="${ACCESS_TOKEN_SECRET}"
+```
+
+### Step 3 - Deploy to OpenFaaS Cloud
+
+Now install the OpenFaaS Cloud [Community Cluster] app to your repo and push your new changes.
+
+### Step 4 - Test e2e with the Patreon webhook tester
+
+If you run into any issues, please feel free to open a GitHub issue.
 
 ## Configuration
 

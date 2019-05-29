@@ -1,16 +1,15 @@
 provider:
-  name: faas
+  name: openfaas
 
 functions:
   patreon-responder:
     lang: python
     handler: ./patreon-responder
-    image: alexellis2/patreon-responder:0.3.3
+    image: alexellis2/patreon-responder:0.4.0
 
     environment:
       write_debug: true
       read_debug: true
       display_removed: false
-    environment_file:
-#      - secrets.example.yml
-      - secrets.yml
+    secrets:
+      - backer-thankyou-secrets
